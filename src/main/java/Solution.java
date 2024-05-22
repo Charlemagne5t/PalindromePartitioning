@@ -3,37 +3,53 @@ import java.util.List;
 
 public class Solution {
     public List<List<String>> partition(String s) {
-        List<List<String>> result = new ArrayList<>();
-
-        backtrack(s, 0, "", result, new ArrayList<>());
-
-        return result;
+        List<List<String>> res = new ArrayList<>();
+        int n = s.length();
+        dfs(s,res , new ArrayList<>(), "", 0);
+        return res;
     }
 
-    private void backtrack(String s, int i, String currentSubstring, List<List<String>> result, List<String> currentList){
-        if(i == s.length()){
-            if(currentSubstring.isEmpty()){
-                result.add(new ArrayList<>(currentList));
+    void dfs(String s, List<List<String>> res, List<String> curSet, String curString, int i) {
+        if(i == s.length()) {
+            if(curString.isEmpty()) {
+                res.add(new ArrayList<>(curSet));
             }
             return;
         }
-
-        currentSubstring = currentSubstring + s.charAt(i);
-        if(isPalindrome(currentSubstring)){
-            currentList.add(currentSubstring);
-            backtrack(s, i + 1, "", result, currentList );
-            currentList.remove(currentList.size() - 1);
+        curString += s.charAt(i);
+        if(isPal(curString)) {
+            curSet.add(curString);
+            dfs(s, res, curSet, "", i + 1);
+            curSet.remove(curSet.size() - 1);
         }
-        backtrack(s, i + 1, currentSubstring, result, currentList);
-
-
+        dfs(s, res, curSet, curString, i + 1);
     }
-    private boolean isPalindrome(String string){
-        for (int i = 0; i < string.length() / 2; i++) {
-            if(string.charAt(i) != string.charAt(string.length() - 1 - i)){
-                return false;
+
+    boolean isPal(String s) {
+        int n = s.length();
+        if(n % 2 == 0) {
+            int r = n / 2;
+            int l = r - 1;
+            while(l >= 0 && r < n) {
+                if(s.charAt(l) != s.charAt(r)){
+                    return false;
+                }
+                l--;
+                r++;
+            }
+        }else {
+            int r = n / 2 + 1;
+            int l = n / 2 - 1;
+            while(l >= 0 && r < n) {
+                if(s.charAt(l) != s.charAt(r)){
+                    return false;
+                }
+                l--;
+                r++;
             }
         }
         return true;
     }
 }
+
+

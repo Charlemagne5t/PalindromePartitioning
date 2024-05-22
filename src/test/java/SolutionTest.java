@@ -32,4 +32,17 @@ public class SolutionTest {
 
         Assert.assertEquals(expected, actual);
     }
+    @Test
+    public void partitionTest3() {
+        String s = "efe";
+        List<List<String>> expected = new ArrayList<>(
+                List.of(
+                        new ArrayList<>(List.of("a"))
+
+                )
+        );
+        List<List<String>> actual = new Solution().partition(s);
+
+        Assert.assertEquals(expected, actual);
+    }
 }
